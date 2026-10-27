@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.run-logs/
+*.log
+.env
+.env.*
+.DS_Store
+# pansou build artifacts / cache
+pansou/pansou
+pansou/pansou.exe
+pansou/cache/
+**/cache/

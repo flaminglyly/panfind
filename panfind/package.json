@@ -1,0 +1,22 @@
+{
+  "name": "panfind",
+  "private": true,
+  "version": "0.1.0",
+  "description": "盘搜 — 网盘公开分享元搜索 MVP",
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev -w api\" \"npm run dev -w web\"",
+    "dev:api": "npm run dev -w api",
+    "dev:web": "npm run dev -w web",
+    "build": "npm run build -w web",
+    "start": "npm run start -w api",
+    "smoke": "npm run smoke -w api"
+  },
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "puppeteer-core": "^25.16.0"
+  }
+}
