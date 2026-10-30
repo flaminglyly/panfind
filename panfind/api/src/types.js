@@ -1,4 +1,4 @@
-/** @typedef {'baidu' | 'quark' | 'xunlei'} CloudType */
+/** @typedef {'baidu' | 'quark' | 'xunlei' | 'uc'} CloudType */
 
 /**
  * @typedef {Object} SearchHit

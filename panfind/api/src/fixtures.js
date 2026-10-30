@@ -1,6 +1,6 @@
 /** Demo fixtures — labeled as 演示模式 only. Not live TG/plugin results. */
 
-/** @type {Array<{title: string, url: string, password?: string, cloudType: 'baidu'|'quark'|'xunlei', source: string, datetime: string, keywords: string[]}>} */
+/** @type {Array<{title: string, url: string, password?: string, cloudType: 'baidu'|'quark'|'xunlei'|'uc', source: string, datetime: string, keywords: string[]}>} */
 export const DEMO_SHARES = [
   {
     title: "速度与激情全集 1-10 1080P",
@@ -145,5 +145,32 @@ export const DEMO_SHARES = [
     source: "demo:tg:drama_channel",
     datetime: "2023-11-02T09:12:00Z",
     keywords: ["庆余年", "电视剧", "第一季"],
+  },
+  {
+    title: "王子的黑手党骑士 第二季 UC网盘",
+    url: "https://drive.uc.cn/s/demoUcMafia017",
+    password: "uc88",
+    cloudType: "uc",
+    source: "demo:plugin:uc_drama",
+    datetime: "2026-10-20T12:00:00Z",
+    keywords: ["王子的黑手党骑士", "第二季", "电视剧"],
+  },
+  {
+    title: "王子的黑手党骑士 第二季 夸克合集",
+    url: "https://pan.quark.cn/s/demoQuarkMafia018",
+    password: "",
+    cloudType: "quark",
+    source: "demo:plugin:drama_hub",
+    datetime: "2026-10-21T10:00:00Z",
+    keywords: ["王子的黑手党骑士", "第二季", "电视剧"],
+  },
+  {
+    title: "王子的黑手党骑士 第二季 百度分享",
+    url: "https://pan.baidu.com/s/1demoBaiduMafia019",
+    password: "mf19",
+    cloudType: "baidu",
+    source: "demo:tg:drama_channel",
+    datetime: "2026-10-19T09:00:00Z",
+    keywords: ["王子的黑手党骑士", "第二季", "电视剧"],
   },
 ];

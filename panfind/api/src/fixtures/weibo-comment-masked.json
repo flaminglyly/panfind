@@ -1,0 +1,65 @@
+{
+  "_comment": "Realistic Weibo hotflow comment: UI shows k/d/uc + 网页链接; JSON has url_struct with long_url",
+  "ok": 1,
+  "data": {
+    "data": [
+      {
+        "id": 512340001,
+        "mid": "512340001",
+        "rootid": "512340001",
+        "text": "k: <a href=\"https://weibo.cn/sinaurl?u=https%3A%2F%2Fpan.quark.cn%2Fs%2FabcQuarkLockLove\">网页链接</a>, d: <a href=\"https://weibo.cn/sinaurl?u=https%3A%2F%2Fpan.baidu.com%2Fs%2F1abcBaiduLockLove\">网页链接</a>, uc: <a href=\"https://weibo.cn/sinaurl?u=https%3A%2F%2Fdrive.uc.cn%2Fs%2FabcUcLockLove\">网页链接</a>",
+        "text_raw": "k: 网页链接, d: 网页链接, uc: 网页链接",
+        "url_struct": [
+          {
+            "url_title": "网页链接",
+            "url_type_pic": "https://h5.sinaimg.cn/upload/2015/09/25/3/timeline_card_small_web_default.png",
+            "short_url": "http://t.cn/A6LockK",
+            "ori_url": "https://pan.quark.cn/s/abcQuarkLockLove",
+            "long_url": "https://pan.quark.cn/s/abcQuarkLockLove",
+            "page_id": "",
+            "actionlog": {}
+          },
+          {
+            "url_title": "网页链接",
+            "short_url": "http://t.cn/A6LockD",
+            "ori_url": "https://pan.baidu.com/s/1abcBaiduLockLove?pwd=lk88",
+            "long_url": "https://pan.baidu.com/s/1abcBaiduLockLove?pwd=lk88"
+          },
+          {
+            "url_title": "网页链接",
+            "short_url": "http://t.cn/A6LockUc",
+            "long_url": "https://drive.uc.cn/s/abcUcLockLove"
+          }
+        ],
+        "comments": [
+          {
+            "id": 512340002,
+            "mid": "512340002",
+            "text": "迅: <a href=\"https://weibo.cn/sinaurl?u=https%3A%2F%2Fpan.xunlei.com%2Fs%2FabcXlLockLove%3Fpwd%3Dxl77\">网页链接</a>",
+            "text_raw": "迅: 网页链接",
+            "url_struct": [
+              {
+                "url_title": "网页链接",
+                "short_url": "http://t.cn/A6LockXl",
+                "long_url": "https://pan.xunlei.com/s/abcXlLockLove?pwd=xl77",
+                "ori_url": "https://pan.xunlei.com/s/abcXlLockLove?pwd=xl77"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 512340003,
+        "mid": "512340003",
+        "text": "只有短链 <a href=\"http://t.cn/A6OnlyShort\">网页链接</a>",
+        "text_raw": "夸克: 网页链接",
+        "url_struct": [
+          {
+            "url_title": "网页链接",
+            "short_url": "http://t.cn/A6OnlyShort"
+          }
+        ]
+      }
+    ]
+  }
+}

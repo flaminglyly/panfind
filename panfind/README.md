@@ -2,7 +2,13 @@
 
 PC 浏览器 MVP：聚合 **百度网盘 / 夸克网盘 / 迅雷网盘** 的**公开分享链接**，按「源质量 + 关键词匹配 + 新鲜度」排序。
 
-架构：**多源元搜索聚合（PanSou 范式）**。薄网关 + PC Web，对接本机 [fish2018/pansou](https://github.com/fish2018/pansou)（MIT）。上游失败回退演示；健康检查与 UI 标明「实时」或「演示」。
+架构：**多源元搜索聚合**。薄网关并行查询：
+
+1. 本机 [PanSou](https://github.com/fish2018/pansou)（MIT）
+2. **混合盘系公开 API**（hunhepan / qkpanso / kuake8 / misoso，自研适配器）
+3. **微博**（可选：`ENABLE_WEIBO` + 自备 `WEIBO_COOKIE`；`WEIBO_UIDS` 可选，空则关键词公开检索）
+
+去重后按匹配质量排序；UI 标明 `source`（如 `tg:…` / `plugin:…` / `ext:hunhepan` / `weibo:…`）。上游失败可回退演示。详见 `docs/multi-source.md`、`docs/weibo-source.md`。
 
 ---
 
@@ -20,12 +26,24 @@ PC 浏览器 MVP：聚合 **百度网盘 / 夸克网盘 / 迅雷网盘** 的**�
 
 ### 获取代码
 
-Project **无 GitHub 推送凭据**，请用可移植包：
+目标仓库：**https://github.com/flaminglyly/panfind**（默认分支 `main`）。
 
-- 文档：[`docs/local-run.md`](file:///cursor/stores/self/docs/local-run.md)（协调人侧路径见该文件）
+Cloud Agent VM **无 `gh` 登录**，不能代推。请在你已登录的本机用 tarball 创建并推送（命令见 Project `docs/local-run.md`），或：
+
 - 包：`/cursor/stores/self/media/panfind-local/panfind-stack.tgz`
+- 解压后应含 `panfind/`、`pansou/`、`start-local.sh`、`scripts/push-github.sh`
 
-解压后目录应含 `panfind/`、`pansou/`、`start-local.sh`。
+### 若编译报 `pansou/util/cache is not in std`
+
+旧包误排除了 `util/cache`。在已有目录修复（不必重下）：
+
+```bash
+cd pansou
+curl -sL https://github.com/fish2018/pansou/archive/refs/heads/main.tar.gz | tar -xz -C /tmp
+rm -rf util/cache && cp -R /tmp/pansou-main/util/cache util/
+GO111MODULE=on go mod download && CGO_ENABLED=0 go build -o pansou .
+cd .. && ./start-local.sh
+```
 
 ### 三步 / 一键
 
@@ -34,6 +52,7 @@ cd /path/to/panfind-stack
 chmod +x start-local.sh panfind/scripts/start-local.sh pansou/run-live.sh
 ./start-local.sh
 ```
+
 
 然后打开 **http://localhost:5173**。应显示「实时聚合（PanSou）」。`Ctrl+C` 停止。
 
@@ -72,13 +91,17 @@ cd /agent/panfind
 
 ```
 panfind/
-├── api/                 # Express 搜索网关
+├── api/                 # Express 搜索网关（含 weibo / extract / aggregate）
 ├── web/                 # Vite + React
+├── docs/
+│   ├── multi-source.md
+│   └── weibo-source.md  # Cookie/UID 配置与合规说明
 ├── scripts/
-│   ├── start-local.sh   # 本机一键（PanSou+API+Web）
+│   ├── start-local.sh   # 本机一键（PanSou+API+Web；透传 WEIBO_*）
 │   ├── run-live.sh
 │   ├── run-all-live.sh
-│   └── capture-live.mjs
+│   ├── capture-live.mjs
+│   └── capture-weibo.mjs
 └── README.md
 # 并列：
 pansou/                  # 上游源码 + run-live.sh
@@ -91,7 +114,12 @@ pansou/                  # 上游源码 + run-live.sh
 | 变量 | 说明 | 默认 |
 |------|------|------|
 | `PORT` | 盘搜 API 端口 | `8787` |
-| `PANSOU_URL` | PanSou 根地址 | 空 → 演示 |
+| `PANSOU_URL` | PanSou 根地址 | 空则仅用扩展源/演示 |
+| `ENABLE_EXT_SOURCES` | `1` 启用混合盘系扩展源 | `1` |
+| `ENABLE_WEIBO` / 设置面板 | 启用微博源（面板优先） | 关 |
+| `WEIBO_COOKIE` / 面板 Cookie | 实时 Cookie；面板写入 `.data/weibo-config.json` | 空 |
+| `WEIBO_UIDS` / 面板博主列表 | 可选；空=关键词公开检索 | 空 |
+| `WEIBO_ALLOW_DEMO` | 无 Cookie 时用 `weibo:demo` 夹具 | 关 |
 | `DEMO_MODE` | `1` 强制演示 | `0` |
 | `PANSOU_DIR` | pansou 目录（一键脚本） | 与 panfind 并列的 `../pansou` |
 | `CHANNELS` / `ENABLED_PLUGINS` | PanSou 源 | 见 `pansou/run-live.sh` |
@@ -106,6 +134,14 @@ pansou/                  # 上游源码 + run-live.sh
 - 前端深链：`/?kw=三体`
 
 ---
+
+## 版本
+
+当前 **v0.3.0**（`version.json`）。页脚 /「关于」可查看；API：`/api/health`（`version`、`buildTime`）、`/api/version`、`/api/changelog`。详见 `docs/version.md`。
+
+## 微博设置
+
+Web 右上角「微博设置」可开关微博源、粘贴 Cookie、增删资源博主；写入 `.data/weibo-config.json`（gitignore，Cookie 不入库）。结果卡片展示微博昵称 / UID / 帖子链接 / `source`。详见 `docs/weibo-source.md`。
 
 ## 合规说明
 

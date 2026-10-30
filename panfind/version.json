@@ -1,0 +1,140 @@
+{
+  "name": "盘搜 PanFind",
+  "version": "0.3.8",
+  "buildTime": "2026-10-29T10:40:13.896Z",
+  "channel": "local",
+  "changelog": [
+    {
+      "version": "0.3.8",
+      "date": "2026-10-29",
+      "title": "PanSou/混合盘系 迅雷·UC 诊断与适配",
+      "items": [
+        "根因：本机 PanSou 未设 ENABLED_PLUGINS→插件 0，仅 TG，迅雷/UC 极少；混合盘 XUNLEI 稀少、UC 上游几乎无",
+        "PanSou 归一化：扫描全部 merged 键 + URL 别名；始终遍历 results[].links",
+        "sourceStats 分型 byType +「该源无迅雷/UC」提示；run 脚本默认启用插件与迅雷/UC 频道",
+        "单测：coerceCloudType / normalizeUpstream / mapDiskType(XUNLEI)"
+      ]
+    },
+    {
+      "version": "0.3.7",
+      "date": "2026-10-29",
+      "title": "网盘芯片选中/排除语义修复",
+      "items": [
+        "修复「全部」外观下点夸克反而变成只选夸克的问题（空选先展开再排除）",
+        "芯片实心✓=已选、虚线–=未选，文案提示当前筛选",
+        "点已选芯片立即从列表隐藏该类型；全排除后恢复全部",
+        "cloudFilter 单测覆盖 toggle / 即时过滤"
+      ]
+    },
+    {
+      "version": "0.3.6",
+      "date": "2026-10-29",
+      "title": "网盘类型硬过滤 + UC网盘",
+      "items": [
+        "取消勾选的网盘类型不再出现在结果列表（前端即时筛选 + 服务端合并后硬过滤）",
+        "未选任何类型视为全部；选中若干则严格按类型过滤",
+        "新增 UC网盘：识别 drive.uc.cn / pan.uc.cn 与微博前缀 U/UC/uc:",
+        "筛选芯片增加 UC；徽章 / 复制 / 打开与其他盘一致"
+      ]
+    },
+    {
+      "version": "0.3.5",
+      "date": "2026-10-29",
+      "title": "中文整句短语硬过滤（王子的黑手党骑士）",
+      "items": [
+        "无空格中文查询视为连续整句，禁止用「黑手党」等 bigram 局部命中放行或抬分",
+        "正文或产出盘链的评论须含完整短语；诊断显示 keywordDropped / skippedOffTopic",
+        "结果带 weiboMatchField；排序禁用中文短语 charBonus",
+        "单测覆盖「王子的黑手党骑士」拒锁爱/吾岸/局部黑手党"
+      ]
+    },
+    {
+      "version": "0.3.4",
+      "date": "2026-10-28",
+      "title": "微博结果关键词硬过滤与排序修正",
+      "items": [
+        "微博结果要求关键词出现在正文或产出链接的评论中；博主昵称不足以入选",
+        "修复评分把查询词塞进 title/keywords 导致「吾岸」等无关帖高分的问题",
+        "排序提高关键词权重，标题不含关键词时大幅降权",
+        "单测：搜「流人」不得让「吾岸」-only 压过「流人」标题"
+      ]
+    },
+    {
+      "version": "0.3.3",
+      "date": "2026-10-28",
+      "title": "微博双 Cookie 槽（weibo.com / m.weibo.cn）",
+      "items": [
+        "设置面板分槽保存 weibo.com 与 m.weibo.cn Cookie；请求按域名选用，不交叉串用",
+        "旧单字段 cookie / WEIBO_COOKIE 仍可回填两槽；健康检查仅返回 weiboComConfigured / mWeiboConfigured 布尔",
+        "关键词检索缺 m.weibo.cn Cookie 时明确提示填写移动端槽（避免 weibo.com Cookie 触发 ok=-100 误解）",
+        "环境变量可选 WEIBO_COOKIE_COM / WEIBO_COOKIE_M"
+      ]
+    },
+    {
+      "version": "0.3.2",
+      "date": "2026-10-28",
+      "title": "微博评论拉取修复（buildComments）",
+      "items": [
+        "评论优先走 weibo.com/ajax/statuses/buildComments（与 searchblog 同域 Cookie），失败再回退 m.weibo.cn/hotflow",
+        "不再依赖 comments_count>0 才拉评论（searchblog 常缺该字段导致评论 0）",
+        "诊断展示评论 endpoint / mid / HTTP；前缀支持大写 K/D/U 且冒号可选",
+        "明文 K:/D:/UC:/迅: 与「K 网页链接」掩码夹具测试"
+      ]
+    },
+    {
+      "version": "0.3.1",
+      "date": "2026-10-28",
+      "title": "微博评论「网页链接」掩码解析",
+      "items": [
+        "评论/正文解析 url_struct、url_objects、sinaurl 展开，不再只靠明文 pan.* 正则",
+        "识别博主前缀 k/d/uc/迅（及夸克/百度/迅雷）并映射网盘类型；仅短链时仍可记录",
+        "有帖无链时诊断附带评论样例（截断、不含 Cookie）",
+        "夹具测试覆盖「锁爱游戏」类 k/d/uc/迅 + 网页链接 模式"
+      ]
+    },
+    {
+      "version": "0.3.0",
+      "date": "2026-10-28",
+      "title": "版本信息与微博实时诊断",
+      "items": [
+        "新增版本号展示与变更说明（页脚 / 关于抽屉；`/api/health` 含 version、buildTime）",
+        "微博实时失败不再静默：API/UI 诊断条展示 error、warning、请求 URL（不含 Cookie）",
+        "占位 UID 自动忽略；博主内搜失败回退关键词公开检索",
+        "关键词检索参数与 cards 解析增强；提示需 m.weibo.cn 登录态 Cookie"
+      ]
+    },
+    {
+      "version": "0.2.1",
+      "date": "2026-10-28",
+      "title": "微博链接与设置面板",
+      "items": [
+        "结果卡片展示微博来源：昵称、UID、source；演示标「演示·不可跳转」",
+        "产品内「微博设置」：开关、Cookie、博主列表；持久化到本机 `.data/weibo-config.json`",
+        "实时帖链使用接口 mid/mblogid 拼装，禁止假 weibo.com/u/ 演示链"
+      ]
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-10-28",
+      "title": "微博源与多源聚合",
+      "items": [
+        "新增微博源：关键词公开检索或可选资源博主 UID",
+        "正文/评论提取百度、夸克、迅雷链接与提取码",
+        "与 PanSou、混合盘系并行聚合去重排序",
+        "WEIBO_UIDS 可选；无 Cookie 时可演示夹具"
+      ]
+    },
+    {
+      "version": "0.1.0",
+      "date": "2026-10-27",
+      "title": "盘搜 MVP",
+      "items": [
+        "PC Web 元搜索：百度 / 夸克 / 迅雷公开分享",
+        "接入 PanSou 与混合盘系扩展源",
+        "按源质量 + 关键词 + 新鲜度排序",
+        "本机一键启动脚本与合规说明"
+      ]
+    }
+  ],
+  "packNote": "panfind-v0.3.8.tgz — pansou/hunhepan xunlei-uc diagnose + plugins"
+}

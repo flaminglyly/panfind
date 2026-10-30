@@ -6,3 +6,5 @@ dist/
 .env.*
 cache/
 .run-logs/
+.data/
+**/weibo-config.json
